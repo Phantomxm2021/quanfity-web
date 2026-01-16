@@ -39,19 +39,38 @@ export default async function SharePage({ params }: PageProps) {
     const { id } = await params;
     const dict = await getDictionary();
 
-    const { data, error } = await supabase
+    const { data: shareData, error: shareError } = await supabase
         .from('shared_analyses')
-        .select('payload')
+        .select('payload, user_id')
         .eq('id', id)
         .single();
 
-    if (error || !data) {
-        console.error("Error fetching analysis:", error);
+    if (shareError || !shareData) {
+        console.error("Error fetching analysis:", shareError);
         notFound();
     }
 
-    const result = data.payload as AnalysisResult;
+    const result = shareData.payload as AnalysisResult;
+
+    // Fetch user profile if user_id is available
+    let dynamicUserInfo = result.userInfo;
+    if (shareData.user_id) {
+        const { data: profileData } = await supabase
+            .from('profiles')
+            .select('full_name, avatar_url')
+            .eq('id', shareData.user_id)
+            .single();
+
+        if (profileData) {
+            dynamicUserInfo = {
+                nickname: profileData.full_name || "Trader",
+                avatarUrl: profileData.avatar_url
+            };
+        }
+    }
+
     const ticker = result.ticker || "UNKNOWN";
+    const userInfo = dynamicUserInfo;
 
     return (
         <div className="min-h-screen bg-black pb-32 font-sans selection:bg-white selection:text-black">
@@ -65,7 +84,24 @@ export default async function SharePage({ params }: PageProps) {
                         <h1 className="text-6xl font-display font-medium tracking-tighter text-white leading-none">
                             {ticker}
                         </h1>
-                        <VerdictBadge direction={result.stockStrategy.direction} labels={dict.verdict} />
+                        <div className="flex flex-col items-end space-y-3">
+                            <VerdictBadge direction={result.stockStrategy.direction} labels={dict.verdict} />
+
+                            {userInfo && (
+                                <div className="flex items-center space-x-2 bg-neutral-900/40 w-fit px-2.5 py-1 rounded-full border border-white/5">
+                                    <div className="w-5 h-5 rounded-full overflow-hidden bg-neutral-800 border border-white/10">
+                                        {userInfo.avatarUrl ? (
+                                            <img src={userInfo.avatarUrl} alt={userInfo.nickname} className="w-full h-full object-cover" />
+                                        ) : (
+                                            <div className="w-full h-full flex items-center justify-center text-[10px] font-bold text-neutral-500 font-mono">
+                                                {userInfo.nickname.charAt(0).toUpperCase()}
+                                            </div>
+                                        )}
+                                    </div>
+                                    <span className="text-xs text-neutral-400 font-medium font-display tracking-tight">{userInfo.nickname}</span>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </header>
 

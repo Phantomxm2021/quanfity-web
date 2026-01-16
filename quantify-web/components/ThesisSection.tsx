@@ -1,16 +1,15 @@
 export function ThesisSection({ title, items, color }: { title: string; items: string[]; color: string }) {
+    // Ignore color prop for minimalist theme, keep structure clean
     return (
-        <div className="bg-slate-800 p-4 rounded-xl border-l-4 shadow-sm border-slate-700/50" style={{ borderLeftColor: 'transparent' /* Handled by tailwind class passed in color prop relative to border-l-4? No, usage was color="border-purple-500" which is tailwind class */ }}>
-            <div className={`flex items-center gap-2 mb-2 ${color.replace('border-', 'text-')}`}>
-                <div className={`w-1 h-4 rounded-full ${color.replace('border-', 'bg-')}`}></div>
-                <h3 className="font-semibold text-white">{title}</h3>
-            </div>
-            <div className="space-y-2 pl-3">
+        <div className="mb-6 last:mb-0">
+            <h3 className="font-display font-medium text-base text-white mb-3 flex items-center gap-2">
+                <span className="w-1 h-1 bg-white rounded-full opacity-50"></span>
+                {title}
+            </h3>
+
+            <div className="pl-3 border-l border-white/10 space-y-2">
                 {items.map((item, idx) => (
-                    <div key={idx} className="flex gap-2 items-start text-sm text-slate-300 leading-relaxed">
-                        <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-slate-500 shrink-0"></span>
-                        <span>{item}</span>
-                    </div>
+                    <p key={idx} className="text-sm text-neutral-300 leading-relaxed font-sans">{item}</p>
                 ))}
             </div>
         </div>

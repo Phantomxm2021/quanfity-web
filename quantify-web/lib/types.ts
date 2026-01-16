@@ -12,7 +12,13 @@ export interface AnalysisResult {
     positionStrategy?: PositionStrategy;
     marketCorrelation?: string;
     market?: string;
+    userInfo?: UserInfo;
     isValid?: boolean;
+}
+
+export interface UserInfo {
+    nickname: string;
+    avatarUrl?: string; // Optional
 }
 
 export interface StockStrategy {

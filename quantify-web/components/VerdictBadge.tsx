@@ -1,20 +1,21 @@
-export function VerdictBadge({ direction }: { direction: string }) {
+export function VerdictBadge({ direction, labels }: { direction: string, labels: { bullish: string, bearish: string, neutral: string } }) {
     const d = direction.toLowerCase();
-    let colorClass = "bg-gray-500/20 text-gray-400 border-gray-500";
-    let label = "Neutral";
+
+    // Minimalist colors: White for Bullish, darker grey for Bearish, or just rely on text
+    // Let's go with pure monochrome first.
+    let label = labels.neutral;
 
     if (d.includes("long") || d.includes("bull")) {
-        colorClass = "bg-green-500/20 text-green-400 border-green-500";
-        label = "Bullish";
+        label = labels.bullish;
     } else if (d.includes("short") || d.includes("bear")) {
-        colorClass = "bg-red-500/20 text-red-400 border-red-500";
-        label = "Bearish";
+        label = labels.bearish;
     }
 
     return (
-        <div className={`px-4 py-2 rounded-full border border-opacity-30 flex items-center gap-2 backdrop-blur-sm ${colorClass}`}>
-            <span className="font-bold uppercase tracking-wider text-sm">{direction}</span>
-            <span className="text-xs opacity-80 border-l border-opacity-30 pl-2 border-current">{label}</span>
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/20 bg-white/5 backdrop-blur-sm">
+            <span className="font-mono font-bold uppercase text-sm tracking-wider text-white">{direction}</span>
+            <span className="w-px h-3 bg-white/20"></span>
+            <span className="font-sans text-xs font-medium text-neutral-400 uppercase tracking-widest">{label}</span>
         </div>
     );
 }

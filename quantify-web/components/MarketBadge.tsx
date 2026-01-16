@@ -1,6 +1,6 @@
 export function MarketBadge({ market }: { market: string }) {
     return (
-        <span className="inline-block px-2 py-0.5 rounded text-[10px] font-bold bg-white/10 text-white border border-white/20 mb-1">
+        <span className="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-mono font-bold bg-white text-black mb-4 tracking-widest uppercase">
             {market}
         </span>
     );

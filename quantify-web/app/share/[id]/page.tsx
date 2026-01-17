@@ -43,6 +43,25 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return {
         title: `${ticker} // ${dict.metaTitle}`,
         description: dict.metaDesc,
+        openGraph: {
+            title: `${ticker} // ${dict.metaTitle}`,
+            description: dict.metaDesc,
+            images: [
+                {
+                    url: '/AppIcon_Chart.png',
+                    width: 512,
+                    height: 512,
+                    alt: ticker,
+                },
+            ],
+            type: 'website',
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: `${ticker} // ${dict.metaTitle}`,
+            description: dict.metaDesc,
+            images: ['/AppIcon_Chart.png'],
+        },
     };
 }
 

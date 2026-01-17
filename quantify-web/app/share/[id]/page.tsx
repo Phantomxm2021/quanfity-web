@@ -9,6 +9,17 @@ import { InfoTile } from '@/components/InfoTile';
 import { MarketBadge } from '@/components/MarketBadge';
 import { DownloadBanner } from '@/components/DownloadBanner';
 import { getDictionary } from '@/lib/i18n';
+import {
+    Globe,
+    Activity,
+    Target,
+    PieChart,
+    Zap,
+    Lightbulb,
+    ArrowLeftRight,
+    TrendingUp,
+    TrendingDown
+} from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -107,21 +118,24 @@ export default async function SharePage({ params }: PageProps) {
 
                 {/* Scores */}
                 <div className="grid grid-cols-2 gap-4 mb-12">
-                    <ScoreCard title={dict.scores.macro} score={result.macroScore} />
-                    <ScoreCard title={dict.scores.tech} score={result.techScore} />
+                    <ScoreCard title={dict.scores.macro} score={result.macroScore} color="macro" icon={Globe} />
+                    <ScoreCard title={dict.scores.tech} score={result.techScore} color="tech" icon={Activity} />
                 </div>
 
                 {/* Strategy Cards Container */}
                 <div className="space-y-8 mb-16">
 
                     {/* Stock Strategy Card */}
-                    <div className="bg-neutral-900/40 rounded-3xl border border-white/10 p-6 overflow-hidden relative">
+                    <div className="bg-neutral-900/40 rounded-3xl border border-indigo-500/20 p-6 overflow-hidden relative">
                         {/* Decorative Top Line */}
-                        <div className="absolute top-0 left-0 w-full h-1 bg-white/10"></div>
+                        <div className="absolute top-0 left-0 w-full h-1 bg-indigo-500/30"></div>
 
                         <h2 className="text-sm font-mono uppercase tracking-widest mb-6 text-white pb-4 border-b border-white/5 flex items-center justify-between">
-                            {dict.strategy.title}
-                            <span className="w-2 h-2 rounded-full bg-white/20"></span>
+                            <div className="flex items-center gap-2">
+                                <Target className="w-4 h-4 text-indigo-400" />
+                                {dict.strategy.title}
+                            </div>
+                            <span className="w-2 h-2 rounded-full bg-indigo-500 shadow-[0_0_8px_rgba(99,102,241,0.5)]"></span>
                         </h2>
 
                         <div className="grid grid-cols-2 gap-x-4 md:gap-x-8 gap-y-6 mb-8">
@@ -144,10 +158,13 @@ export default async function SharePage({ params }: PageProps) {
 
                     {/* Position Strategy Card */}
                     {result.positionStrategy && (
-                        <div className="bg-neutral-900/40 rounded-3xl border border-white/10 p-6 relative">
+                        <div className="bg-neutral-900/40 rounded-3xl border border-fuchsia-500/20 p-6 relative">
                             <h2 className="text-sm font-mono uppercase tracking-widest mb-6 text-white pb-4 border-b border-white/5 flex items-center justify-between">
-                                {dict.position.title}
-                                <span className="w-2 h-2 rounded-full bg-white/20"></span>
+                                <div className="flex items-center gap-2">
+                                    <PieChart className="w-4 h-4 text-fuchsia-400" />
+                                    {dict.position.title}
+                                </div>
+                                <span className="w-2 h-2 rounded-full bg-fuchsia-500 shadow-[0_0_8px_rgba(217,70,239,0.5)]"></span>
                             </h2>
 
                             {/* Summary */}
@@ -194,10 +211,13 @@ export default async function SharePage({ params }: PageProps) {
 
                     {/* Option Strategy Card */}
                     {result.optionStrategy && (
-                        <div className="bg-neutral-900/40 rounded-3xl border border-white/10 p-6 relative">
+                        <div className="bg-neutral-900/40 rounded-3xl border border-orange-500/20 p-6 relative">
                             <h2 className="text-sm font-mono uppercase tracking-widest mb-6 text-white pb-4 border-b border-white/5 flex items-center justify-between">
-                                {dict.option.title}
-                                <span className="w-2 h-2 rounded-full bg-white/20"></span>
+                                <div className="flex items-center gap-2">
+                                    <Zap className="w-4 h-4 text-orange-400" />
+                                    {dict.option.title}
+                                </div>
+                                <span className="w-2 h-2 rounded-full bg-orange-500 shadow-[0_0_8px_rgba(249,115,22,0.5)]"></span>
                             </h2>
 
                             <div className="grid grid-cols-2 gap-x-4 md:gap-x-8 gap-y-6">
@@ -221,29 +241,29 @@ export default async function SharePage({ params }: PageProps) {
                 {/* Thesis Sections - Cards */}
                 <div className="space-y-6">
                     <div className="bg-neutral-900/20 rounded-2xl p-6 border border-white/5">
-                        <ThesisSection title={dict.thesis.core} items={[result.coreTheme]} color="" />
+                        <ThesisSection title={dict.thesis.core} items={[result.coreTheme]} color="core" icon={Lightbulb} />
                     </div>
 
                     {result.marketCorrelation && (
                         <div className="bg-neutral-900/20 rounded-2xl p-6 border border-white/5">
-                            <ThesisSection title={dict.thesis.correlation} items={[result.marketCorrelation]} color="" />
+                            <ThesisSection title={dict.thesis.correlation} items={[result.marketCorrelation]} color="correlation" icon={ArrowLeftRight} />
                         </div>
                     )}
 
                     <div className="grid md:grid-cols-2 gap-6">
                         <div className="bg-neutral-900/20 rounded-2xl p-6 border border-white/5">
-                            <ThesisSection title={dict.thesis.bull} items={result.bullCase} color="" />
+                            <ThesisSection title={dict.thesis.bull} items={result.bullCase} color="bull" icon={TrendingUp} />
                         </div>
                         <div className="bg-neutral-900/20 rounded-2xl p-6 border border-white/5">
-                            <ThesisSection title={dict.thesis.bear} items={result.bearCase} color="" />
+                            <ThesisSection title={dict.thesis.bear} items={result.bearCase} color="bear" icon={TrendingDown} />
                         </div>
                     </div>
 
                     <div className="bg-neutral-900/20 rounded-2xl p-6 border border-white/5">
-                        <ThesisSection title={dict.thesis.macro} items={[result.macroComment]} color="" />
+                        <ThesisSection title={dict.thesis.macro} items={[result.macroComment]} color="macro" icon={Globe} />
                     </div>
                     <div className="bg-neutral-900/20 rounded-2xl p-6 border border-white/5">
-                        <ThesisSection title={dict.thesis.tech} items={[result.techComment]} color="" />
+                        <ThesisSection title={dict.thesis.tech} items={[result.techComment]} color="tech" icon={Activity} />
                     </div>
                 </div>
 

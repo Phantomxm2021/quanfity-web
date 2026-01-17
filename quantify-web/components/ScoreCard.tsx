@@ -1,20 +1,33 @@
-export function ScoreCard({ title, score }: { title: string; score: number }) {
+import { LucideIcon } from "lucide-react";
+
+export function ScoreCard({ title, score, color = "", icon: Icon }: { title: string; score: number; color?: string; icon?: LucideIcon }) {
     // Convert 0-100 score to 0-5 stars
     const stars = Math.round(score / 20);
     const maxStars = 5;
 
+    const variants: Record<string, { border: string; star: string; icon: string }> = {
+        macro: { border: "border-cyan-500/30", star: "text-cyan-400", icon: "text-cyan-500" },
+        tech: { border: "border-violet-500/30", star: "text-violet-400", icon: "text-violet-500" },
+        default: { border: "border-white/10", star: "text-white", icon: "text-white/50" }
+    };
+
+    const style = variants[color] || variants.default;
+
     return (
-        <div className="flex flex-col p-4 bg-neutral-900/50 rounded-2xl border border-white/10">
+        <div className={`flex flex-col p-4 bg-neutral-900/50 rounded-2xl border ${style.border}`}>
             <div className="flex justify-between items-center mb-3">
-                <span className="font-mono text-[10px] uppercase text-neutral-500 tracking-widest">{title}</span>
-                <span className="font-display font-medium text-lg text-white">{(score / 20).toFixed(1)}</span>
+                <div className="flex items-center gap-2">
+                    {Icon && <Icon className={`w-3.5 h-3.5 ${style.icon}`} />}
+                    <span className="font-mono text-[10px] uppercase text-neutral-500 tracking-widest">{title}</span>
+                </div>
+                <span className={`font-display font-medium text-lg text-white`}>{(score / 20).toFixed(1)}</span>
             </div>
 
             <div className="flex gap-1.5">
                 {Array.from({ length: maxStars }).map((_, i) => (
                     <svg
                         key={i}
-                        className={`w-4 h-4 ${i < stars ? "text-white fill-current" : "text-neutral-700 fill-none"}`}
+                        className={`w-4 h-4 ${i < stars ? `${style.star} fill-current` : "text-neutral-700 fill-none"}`}
                         viewBox="0 0 24 24"
                         stroke="currentColor"
                         strokeWidth={1.5}

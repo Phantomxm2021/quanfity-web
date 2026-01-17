@@ -65,6 +65,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
 }
 
+import { ViewTracker } from '@/components/ViewTracker';
+import { ReactionButtons } from '@/components/ReactionButtons';
+
 export default async function SharePage({ params }: PageProps) {
     const { id } = await params;
     const dict = await getDictionary();
@@ -84,8 +87,9 @@ export default async function SharePage({ params }: PageProps) {
 
     // Fetch user profile if user_id is available
     let dynamicUserInfo = result.userInfo;
+
     if (shareData.user_id) {
-        const { data: profileData } = await supabase
+        const { data: profileData, error: profileError } = await supabase
             .from('profiles')
             .select('full_name, avatar_url')
             .eq('id', shareData.user_id)
@@ -93,10 +97,23 @@ export default async function SharePage({ params }: PageProps) {
 
         if (profileData) {
             dynamicUserInfo = {
-                nickname: profileData.full_name || "Trader",
-                avatarUrl: profileData.avatar_url
+                nickname: profileData.full_name || dict.common.trader,
+                avatarUrl: profileData.avatar_url || undefined
             };
+        } else if (profileError) {
+            console.warn("Profile lookup failed for user_id:", shareData.user_id, profileError);
+            // If DB lookup fails but we have no payload info, provide a default fallback
+            if (!dynamicUserInfo) {
+                dynamicUserInfo = {
+                    nickname: dict.common.trader
+                };
+            }
         }
+    } else if (!dynamicUserInfo) {
+        // No user_id and no payload info, still provide a default trader icon/name
+        dynamicUserInfo = {
+            nickname: dict.common.trader
+        };
     }
 
     const ticker = result.ticker || "UNKNOWN";
@@ -286,6 +303,8 @@ export default async function SharePage({ params }: PageProps) {
                     </div>
                 </div>
 
+                <ReactionButtons shareId={id} dict={dict.reaction} />
+
                 <div className="mt-24 text-left border-t border-white/10 pt-8 pb-4">
                     <p className="text-[10px] text-neutral-600 uppercase tracking-widest font-mono">
                         {dict.footer.generatedBy}
@@ -298,6 +317,7 @@ export default async function SharePage({ params }: PageProps) {
             </div>
 
             <DownloadBanner dict={dict.banner} />
+            <ViewTracker shareId={id} />
         </div>
     );
 }

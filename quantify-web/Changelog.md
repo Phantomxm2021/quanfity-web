@@ -8,6 +8,10 @@
 - Color-coded `ScoreCard` components with context-aware Lucide icons.
 - Enhanced `ThesisSection` and Strategy Cards with beautiful title icons and distinct color accents.
 - Optimized social sharing with Open Graph (OG) meta tags for rich link cards in WeChat and other platforms.
+- Added share analytics tracking for view counts, device types, and browser info.
+- Implemented Like/Dislike (Reaction) buttons to capture market sentiment and user feedback.
+- Achieved full multilingual (EN/ZH) support across all UI elements, including interactive components and fallbacks.
+- Improved user profile display robustness with better fallbacks for missing or private profile data.
 
 ## [0.1.1] - 2026-01-17
 

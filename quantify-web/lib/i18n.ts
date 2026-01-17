@@ -55,6 +55,13 @@ const dictionaries = {
             bullish: "Bullish",
             bearish: "Bearish",
             neutral: "Neutral",
+        },
+        common: {
+            trader: "Trader",
+        },
+        reaction: {
+            question: "Was this analysis helpful?",
+            thanks: "Thanks for your feedback!",
         }
     },
     zh: {
@@ -81,6 +88,9 @@ const dictionaries = {
             exit: "分批止盈",
             cost: "平均成本",
             summary: "执行计划",
+        },
+        positionLevel: {
+            note: "说明"
         },
         option: {
             title: "期权策略",
@@ -109,6 +119,13 @@ const dictionaries = {
             bullish: "看涨",
             bearish: "看跌",
             neutral: "中性",
+        },
+        common: {
+            trader: "交易员",
+        },
+        reaction: {
+            question: "该分析对你有帮助吗？",
+            thanks: "感谢你的反馈！",
         }
     }
 };

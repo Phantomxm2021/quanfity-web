@@ -12,10 +12,10 @@ export function VerdictBadge({ direction, labels }: { direction: string, labels:
     }
 
     return (
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/20 bg-white/5 backdrop-blur-sm">
-            <span className="font-mono font-bold uppercase text-sm tracking-wider text-white">{direction}</span>
+        <div className="inline-flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 rounded-full border border-white/20 bg-white/5 backdrop-blur-sm">
+            <span className="font-mono font-bold uppercase text-xs md:text-sm tracking-wider text-white">{direction}</span>
             <span className="w-px h-3 bg-white/20"></span>
-            <span className="font-sans text-xs font-medium text-neutral-400 uppercase tracking-widest">{label}</span>
+            <span className="font-sans text-[10px] md:text-xs font-medium text-neutral-400 uppercase tracking-widest">{label}</span>
         </div>
     );
 }

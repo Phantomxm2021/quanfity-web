@@ -74,14 +74,14 @@ export default async function SharePage({ params }: PageProps) {
 
     return (
         <div className="min-h-screen bg-black pb-32 font-sans selection:bg-white selection:text-black">
-            <div className="max-w-xl mx-auto px-6 pt-12">
+            <div className="max-w-xl mx-auto px-4 sm:px-6 pt-12">
 
                 {/* Header */}
                 <header className="mb-12 text-left">
                     {result.market && <MarketBadge market={result.market} />}
 
                     <div className="flex justify-between items-start mb-6">
-                        <h1 className="text-6xl font-display font-medium tracking-tighter text-white leading-none">
+                        <h1 className="text-4xl md:text-6xl font-display font-medium tracking-tighter text-white leading-none">
                             {ticker}
                         </h1>
                         <div className="flex flex-col items-end space-y-3">
@@ -124,7 +124,7 @@ export default async function SharePage({ params }: PageProps) {
                             <span className="w-2 h-2 rounded-full bg-white/20"></span>
                         </h2>
 
-                        <div className="grid grid-cols-2 gap-x-8 gap-y-6 mb-8">
+                        <div className="grid grid-cols-2 gap-x-4 md:gap-x-8 gap-y-6 mb-8">
                             <InfoTile title={dict.strategy.entry} value={result.stockStrategy.entry} className="col-span-2" />
                             <InfoTile title={dict.strategy.target} value={result.stockStrategy.target} />
                             <InfoTile title={dict.strategy.stop} value={result.stockStrategy.stop} className="text-neutral-400" />
@@ -200,7 +200,7 @@ export default async function SharePage({ params }: PageProps) {
                                 <span className="w-2 h-2 rounded-full bg-white/20"></span>
                             </h2>
 
-                            <div className="grid grid-cols-2 gap-x-8 gap-y-6">
+                            <div className="grid grid-cols-2 gap-x-4 md:gap-x-8 gap-y-6">
                                 <InfoTile title={dict.option.contract} value={result.optionStrategy.contract} className="col-span-2" />
 
                                 {result.optionStrategy.expiration && (

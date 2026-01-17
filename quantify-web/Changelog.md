@@ -12,6 +12,7 @@
 - Implemented Like/Dislike (Reaction) buttons to capture market sentiment and user feedback.
 - Achieved full multilingual (EN/ZH) support across all UI elements, including interactive components and fallbacks.
 - Improved user profile display robustness with better fallbacks for missing or private profile data.
+- Added Engagement Stats display in the header, showing real-time view counts and approval ratings.
 
 ## [0.1.1] - 2026-01-17
 

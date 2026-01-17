@@ -13,6 +13,10 @@ const dictionaries = {
             macro: "Macro Score",
             tech: "Tech Score",
         },
+        stats: {
+            views: "views",
+            approval: "Approval",
+        },
         strategy: {
             title: "Strategy Plan",
             entry: "Entry",
@@ -73,6 +77,10 @@ const dictionaries = {
         scores: {
             macro: "宏观评分",
             tech: "技术评分",
+        },
+        stats: {
+            views: "次浏览",
+            approval: "好评",
         },
         strategy: {
             title: "交易策略",

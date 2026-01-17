@@ -67,6 +67,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 import { ViewTracker } from '@/components/ViewTracker';
 import { ReactionButtons } from '@/components/ReactionButtons';
+import { EngagementStats } from '@/components/EngagementStats';
+import { Flame, Sparkles } from 'lucide-react';
 
 export default async function SharePage({ params }: PageProps) {
     const { id } = await params;
@@ -115,6 +117,25 @@ export default async function SharePage({ params }: PageProps) {
     const ticker = result.ticker || "UNKNOWN";
     const userInfo = dynamicUserInfo;
 
+    // Fetch Engagement Stats
+    const [viewsRes, reactionsRes] = await Promise.all([
+        supabase
+            .from('share_analytics')
+            .select('*', { count: 'exact', head: true })
+            .eq('share_id', id),
+        supabase
+            .from('share_reactions')
+            .select('reaction_type')
+            .eq('share_id', id)
+    ]);
+
+    const viewCount = viewsRes.count || 0;
+    const reactions = reactionsRes.data || [];
+    const likes = reactions.filter(r => r.reaction_type === 'like').length;
+    const dislikes = reactions.filter(r => r.reaction_type === 'dislike').length;
+    const totalVotes = likes + dislikes;
+    const approvalRate = totalVotes > 0 ? Math.round((likes / totalVotes) * 100) : null;
+
     return (
         <div className="min-h-screen bg-black pb-32 font-sans selection:bg-white selection:text-black">
             <div className="max-w-xl mx-auto px-4 sm:px-6 pt-12">
@@ -124,9 +145,12 @@ export default async function SharePage({ params }: PageProps) {
                     {result.market && <MarketBadge market={result.market} />}
 
                     <div className="flex justify-between items-start mb-6">
-                        <h1 className="text-4xl md:text-6xl font-display font-medium tracking-tighter text-white leading-none">
-                            {ticker}
-                        </h1>
+                        <div className="flex flex-col">
+                            <h1 className="text-4xl md:text-6xl font-display font-medium tracking-tighter text-white leading-none mb-2">
+                                {ticker}
+                            </h1>
+                            <EngagementStats views={viewCount} approvalRate={approvalRate} dict={dict.stats} />
+                        </div>
                         <div className="flex flex-col items-end space-y-3">
                             <VerdictBadge direction={result.stockStrategy.direction} labels={dict.verdict} />
 

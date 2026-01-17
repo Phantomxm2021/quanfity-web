@@ -91,26 +91,22 @@ export default async function SharePage({ params }: PageProps) {
     if (shareData.user_id) {
         const { data: profileData, error: profileError } = await supabase
             .from('profiles')
-            .select('full_name, avatar_url')
+            .select('nickname, avatar_url')
             .eq('id', shareData.user_id)
-            .single();
+            .maybeSingle();
 
         if (profileData) {
             dynamicUserInfo = {
-                nickname: profileData.full_name || dict.common.trader,
-                avatarUrl: profileData.avatar_url || undefined
+                nickname: profileData.nickname || (dynamicUserInfo?.nickname ?? dict.common.trader),
+                avatarUrl: profileData.avatar_url || dynamicUserInfo?.avatarUrl
             };
         } else if (profileError) {
             console.warn("Profile lookup failed for user_id:", shareData.user_id, profileError);
-            // If DB lookup fails but we have no payload info, provide a default fallback
-            if (!dynamicUserInfo) {
-                dynamicUserInfo = {
-                    nickname: dict.common.trader
-                };
-            }
         }
-    } else if (!dynamicUserInfo) {
-        // No user_id and no payload info, still provide a default trader icon/name
+    }
+
+    if (!dynamicUserInfo) {
+        // Final fallback if no info from payload or DB
         dynamicUserInfo = {
             nickname: dict.common.trader
         };
